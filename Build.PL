@@ -8,7 +8,7 @@ my $build = Module::Build->new(
     },
     build_requires => {
         'Test::Builder'         => '0.17',
-        'Test::Builder::Tester' => '0.09',
+        'Test::Builder::Tester' => '1.01',
         'Test::More'            => '0.47',
         'Test::Exception'       => '0.15',
     },
