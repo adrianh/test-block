@@ -324,7 +324,7 @@ Overview of some of the many testing modules available on CPAN.
 
 =head1 LICENCE
 
-Copyright 2003-2004 Adrian Howard, All Rights Reserved.
+Copyright 2003-2005 Adrian Howard, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
