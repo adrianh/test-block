@@ -1,9 +1,11 @@
-package Test::Block;
+#! /usr/bin/perl
 
 use strict;
 use warnings;
 
+package Test::Block;
 use base qw(Exporter);
+
 our @EXPORT_OK = qw($Plan);
 
 use Carp;
@@ -13,46 +15,40 @@ use overload
     q{+0} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.08';
-
+our $VERSION = '0.09';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
 
-
 my $Test_builder = Test::Builder->new;
 sub builder { $Test_builder };
-
 
 my $Block_count = 0;
 sub block_count { $Block_count };
 
-
 sub plan {
     my $class = shift;
-    my ($num_tests, $name) = (pop, pop);
-    croak "need # tests" unless $num_tests && $num_tests =~ /^\d+/;
+    my ($expected_tests, $name) = (pop, pop);
+    croak "need expected number of tests"
+        unless $expected_tests && $expected_tests =~ /^\d+$/s;
     $Block_count++;
     $Active_block_count++;
     return bless {
         name            => $name || $Block_count,
-        expected_tests  => $num_tests,
+        expected_tests  => $expected_tests,
         initial_test    => $Test_builder->current_test,
     }, $class;
-};
-
+}
 
 sub _tests_run_in_block {
     my $self = shift;
     return $Test_builder->current_test - $self->{initial_test}
-};
-
+}
 
 sub remaining { 
     my $self = shift;
     return $self->{expected_tests} - _tests_run_in_block($self);
-};
-
+}
 
 sub DESTROY {
     my $self = shift;
@@ -65,7 +61,7 @@ sub DESTROY {
         0, 
         "block $name expected $expected test(s) and ran $tests_ran"
     ) unless $tests_ran == $expected;
-};
+}
 
 
 my $All_tests_in_block = 1;
@@ -75,18 +71,17 @@ sub all_in_block {
     $All_tests_in_block = 
         $Last_test_in_previous_block == $Test_builder->current_test;
     return $All_tests_in_block
-};
+}
 
 
 {
     package Test::Block::Plan;
     use Tie::Scalar;
-    use base qw(Tie::StdScalar);
-    
+    use base qw(Tie::StdScalar);    
+
     sub STORE {
         my ($self, $plan) = @_;
-        if ( defined($plan) && !UNIVERSAL::isa($plan, 'Test::Block') 
-        ) {
+        if ( defined($plan) && ! eval { $plan->isa( 'Test::Block' ) } ) {
             $plan = Test::Block->plan( ref($plan) ? %$plan : $plan );
         };
         $self->SUPER::STORE($plan);
@@ -282,11 +277,33 @@ None known at the time of writing.
 If you find any please let me know by e-mail, or report the problem with L<http://rt.cpan.org/>.
 
 
+=head1 COMMUNITY
+
+=over 4
+
+=item perl-qa
+
+If you are interested in testing using Perl I recommend you visit L<http://qa.perl.org/> and join the excellent perl-qa mailing list. See L<http://lists.perl.org/showlist.cgi?name=perl-qa> for details on how to subscribe.
+
+=item perlmonks
+
+You can find users of Test::Block, including the module author, on  L<http://www.perlmonks.org/>. Feel free to ask questions on Test::Block there.
+
+=item CPAN::Forum
+
+The CPAN Forum is a web forum for discussing Perl's CPAN modules.   The Test::Block forum can be found at L<http://www.cpanforum.com/dist/Test-Block>.
+
+=item AnnoCPAN
+
+AnnoCPAN is a web site that allows community annotations of Perl module documentation. The Test::Block annotations can be found at L<http://annocpan.org/~ADIE/Test-Block/>.
+
+=back
+
 =head1 TO DO
 
-Nothing at the time of writing.
+If you think this module should do something that it doesn't (or does something that it shouldn't) please let me know.
 
-If you think this module should do something that it doesn't do at the moment please let me know.
+You can see my current to do list at L<http://adrianh.tadalist.com/lists/public/15423>, with an RSS feed of changes at L<http://adrianh.tadalist.com/lists/feed_public/15423>.
 
 
 =head1 ACKNOWLEGEMENTS
@@ -314,6 +331,10 @@ Support module for building test libraries.
 =item L<Test::Simple> & L<Test::More>
 
 Basic utilities for writing tests.
+
+=item L<Test::Class>
+
+Test::Class is an xUnit testing framework for Perl. It allows you to specify the number of test run in each method.
 
 =item L<http://qa.perl.org/test-modules.html>
 

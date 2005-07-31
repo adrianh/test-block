@@ -12,3 +12,4 @@ dies_ok { Test::Block->plan('foo') }
     'value only num tests must be a number';
 dies_ok { Test::Block->plan(tests => 'foo') }
     'key/value num tests must be a number';
+dies_ok { Test::Block->plan('44d') } "44d isn't a number either";
