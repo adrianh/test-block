@@ -5,6 +5,7 @@
 ^MANIFEST.SKIP$
 ^Build$
 ^_build/
+^cover_db/
 ^Test-Block
 \.bak$
 \.DS_Store$
