@@ -1,5 +1,9 @@
 Revision history for Perl extension Test::Block.
 
+0.10
+    -   Can now name a blog with a string that maps to false if you want
+    -   Test coverage now at 100% (statement, branch & condition)
+
 0.09
     -   Moved stuff from build_requires to requires so it works with
         CPANPLUS

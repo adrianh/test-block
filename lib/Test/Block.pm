@@ -15,7 +15,7 @@ use overload
     q{+0} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
@@ -34,7 +34,7 @@ sub plan {
     $Block_count++;
     $Active_block_count++;
     return bless {
-        name            => $name || $Block_count,
+        name            => defined $name ? $name : $Block_count,
         expected_tests  => $expected_tests,
         initial_test    => $Test_builder->current_test,
     }, $class;
