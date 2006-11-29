@@ -56,7 +56,7 @@ test_out('ok 1');
 test_test("nested blocks");
 
 test_out('ok 1');
-test_out("not ok 2 - block foo expected 2 test(s) and ran 1");
+test_out("not ok 2 - block 'foo' expected 2 test(s) and ran 1");
 test_fail(+2);
 {
 	my $block = Test::Block->plan(foo => 2);

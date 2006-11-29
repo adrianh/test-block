@@ -10,12 +10,13 @@ our @EXPORT_OK = qw($Plan);
 
 use Carp;
 use Test::Builder;
+use Scalar::Util qw( looks_like_number );
 use overload 
     q{""} => \&remaining,
     q{+0} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
@@ -57,6 +58,7 @@ sub DESTROY {
     my $expected = $self->{expected_tests};
     my $name = $self->{name};
     my $tests_ran = _tests_run_in_block($self);
+    $name = "'$name'" unless looks_like_number( $name );
     $Test_builder->ok(
         0, 
         "block $name expected $expected test(s) and ran $tests_ran"
@@ -306,11 +308,11 @@ If you think this module should do something that it doesn't (or does something 
 You can see my current to do list at L<http://adrianh.tadalist.com/lists/public/15423>, with an RSS feed of changes at L<http://adrianh.tadalist.com/lists/feed_public/15423>.
 
 
-=head1 ACKNOWLEGEMENTS
+=head1 ACKNOWLEDGMENTS
 
 Thanks to chromatic and Michael G Schwern for the excellent Test::Builder, without which this module wouldn't be possible.
 
-Thanks to Michael G Schwern and Tony Bowden for the mails on perl-qa@perl.org that sparked the idea for this module. Thanks to Fergal Daly for suggesting named blocks. Thanks to Michael G Schwern for suggesting $Plan.
+Thanks to Michael G Schwern and Tony Bowden for the mails on perl-qa@perl.org that sparked the idea for this module. Thanks to Fergal Daly for suggesting named blocks. Thanks to Michael G Schwern for suggesting $Plan. Thanks to Nadim Khemir for feedback.
 
 
 =head1 AUTHOR
@@ -324,6 +326,14 @@ If you can spare the time, please drop me a line if you find this module useful.
 
 =over 4
 
+=item L<Test::Group>
+
+A framework for grouping related tests in a test suite
+
+=item L<Test::Class>
+
+Test::Class is an xUnit testing framework for Perl. It allows you to group tests into methods with independent test plans.
+
 =item L<Test::Builder>
 
 Support module for building test libraries.
@@ -331,10 +341,6 @@ Support module for building test libraries.
 =item L<Test::Simple> & L<Test::More>
 
 Basic utilities for writing tests.
-
-=item L<Test::Class>
-
-Test::Class is an xUnit testing framework for Perl. It allows you to specify the number of test run in each method.
 
 =item L<http://qa.perl.org/test-modules.html>
 
@@ -345,7 +351,7 @@ Overview of some of the many testing modules available on CPAN.
 
 =head1 LICENCE
 
-Copyright 2003-2005 Adrian Howard, All Rights Reserved.
+Copyright 2003-2006 Adrian Howard, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

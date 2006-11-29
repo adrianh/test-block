@@ -1,7 +1,15 @@
 Revision history for Perl extension Test::Block.
 
+0.11
+    -   Removed spelling.t, pod.t, signature.t and documented.t from mandatory 
+        tests
+    -   Added a bunch of optional developer tests
+    -   Added reference to Test::Group (thanks to Nadim Khemir)
+    -   Named blocks are now 'quoted' if they're not the default number (thanks
+        to Nadim Khemir for pointing this out)
+
 0.10
-    -   Can now name a blog with a string that maps to false if you want
+    -   Can now name a block with a string that maps to false if you want
     -   Test coverage now at 100% (statement, branch & condition)
 
 0.09
