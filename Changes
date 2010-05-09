@@ -1,5 +1,8 @@
 Revision history for Perl extension Test::Block.
 
+0.12
+    -   Moved to github
+
 0.11
     -   Removed spelling.t, pod.t, signature.t and documented.t from mandatory 
         tests

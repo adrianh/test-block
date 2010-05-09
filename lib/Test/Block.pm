@@ -16,7 +16,7 @@ use overload
     q{+0} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
