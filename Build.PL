@@ -11,6 +11,9 @@ my $build = Module::Build->new(
         'Test::Exception'       => '0.15',
     },
     create_makefile_pl => 'traditional',
+    configure_requires => { 
+        'Module::Build' => 0.38 
+    },
     create_readme => 1,
 );
 $build->create_build_script;

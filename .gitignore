@@ -1,8 +1,9 @@
 Build
 MANIFEST
-META.yml
-MYMETA.yml
-MYMETA.json
+META.*
+MYMETA.*
 Makefile.PL
 _build/
 blib/
+*.bak
+Test-Block-*

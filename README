@@ -1,5 +1,5 @@
 NAME
-    Test::Block - Specify fine granularity test plans
+    Test::Block - DEPRECIATED: Specify fine granularity test plans
 
 SYNOPSIS
       use Test::More 'no_plan';
@@ -35,6 +35,10 @@ SYNOPSIS
       # Looks like you failed 1 tests of 7.
 
 DESCRIPTION
+    NOTE: This module was written before subtests existed in TAP and
+    Test::More. These days subtests will probably be a better option for
+    you.
+
     This module allows you to specify the number of expected tests at a
     finer level of granularity than an entire test script. It is built with
     Test::Builder and plays happily with Test::More and friends.
@@ -207,7 +211,8 @@ ACKNOWLEDGMENTS
     Thanks to Michael G Schwern and Tony Bowden for the mails on
     perl-qa@perl.org that sparked the idea for this module. Thanks to Fergal
     Daly for suggesting named blocks. Thanks to Michael G Schwern for
-    suggesting $Plan. Thanks to Nadim Khemir for feedback.
+    suggesting $Plan. Thanks to Nadim Khemir for feedback and Andreas Koenig
+    for spotting bugs.
 
 AUTHOR
     Adrian Howard <adrianh@quietstars.com>
