@@ -13,10 +13,10 @@ use Test::Builder;
 use Scalar::Util qw( looks_like_number );
 use overload 
     q{""} => \&remaining,
-    q{+0} => \&remaining, 
+    q{0+} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
@@ -98,7 +98,7 @@ __END__
 
 =head1 NAME
 
-Test::Block - Specify fine granularity test plans
+Test::Block - DEPRECIATED: Specify fine granularity test plans
 
 =head1 SYNOPSIS
 
@@ -136,6 +136,8 @@ Test::Block - Specify fine granularity test plans
 
 
 =head1 DESCRIPTION
+
+B<NOTE: This module was written before subtests existed in TAP and Test::More. These days subtests will probably be a better option for you.>
 
 This module allows you to specify the number of expected tests at a finer level of granularity than an entire test script. It is built with L<Test::Builder> and plays happily with L<Test::More> and friends.
 
@@ -312,7 +314,7 @@ You can see my current to do list at L<http://adrianh.tadalist.com/lists/public/
 
 Thanks to chromatic and Michael G Schwern for the excellent Test::Builder, without which this module wouldn't be possible.
 
-Thanks to Michael G Schwern and Tony Bowden for the mails on perl-qa@perl.org that sparked the idea for this module. Thanks to Fergal Daly for suggesting named blocks. Thanks to Michael G Schwern for suggesting $Plan. Thanks to Nadim Khemir for feedback.
+Thanks to Michael G Schwern and Tony Bowden for the mails on perl-qa@perl.org that sparked the idea for this module. Thanks to Fergal Daly for suggesting named blocks. Thanks to Michael G Schwern for suggesting $Plan. Thanks to Nadim Khemir for feedback and Andreas Koenig for spotting bugs.
 
 
 =head1 AUTHOR

@@ -1,5 +1,9 @@
 Revision history for Perl extension Test::Block.
 
+0.13 - 24 Jan 2012
+    -   Marked as depreciated 
+    -   Fixed RT#74295 (thanks Andreas Koenig)
+
 0.12
     -   Moved to github
 
