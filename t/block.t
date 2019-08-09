@@ -4,6 +4,10 @@ use Test::Builder::Tester tests => 6;
 use Test::More;
 use Test::Block;
 
+# in perl 5.23.8 and later, caller() in a destructor called while
+# exiting a block shows the last line of the block, not the first
+my $lastl = $] >= 5.023008;
+
 test_out('ok 1');
 {
 	my $block = Test::Block->plan(1);
@@ -14,7 +18,7 @@ test_test("count okay");
 
 test_out('ok 1');
 test_out('not ok 2 - block 2 expected 2 test(s) and ran 1');
-test_fail(+2);
+test_fail($lastl ? +3 : +2);
 {
 	my $block = Test::Block->plan(2);
 	ok(1);
@@ -25,7 +29,7 @@ test_test("too few tests");
 test_out('ok 1');
 test_out('ok 2');
 test_out('not ok 3 - block 3 expected 1 test(s) and ran 2');
-test_fail(+2);
+test_fail($lastl ? +4 : +2);
 {
 	my $block = Test::Block->plan(1);
 	ok(1);
@@ -57,7 +61,7 @@ test_test("nested blocks");
 
 test_out('ok 1');
 test_out("not ok 2 - block 'foo' expected 2 test(s) and ran 1");
-test_fail(+2);
+test_fail($lastl ? +3 : +2);
 {
 	my $block = Test::Block->plan(foo => 2);
 	ok(1);
