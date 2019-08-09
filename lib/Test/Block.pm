@@ -16,7 +16,7 @@ use overload
     q{0+} => \&remaining, 
     fallback => 1;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 my $Last_test_in_previous_block = 0;
 my $Active_block_count = 0;
@@ -59,6 +59,22 @@ sub DESTROY {
     my $name = $self->{name};
     my $tests_ran = _tests_run_in_block($self);
     $name = "'$name'" unless looks_like_number( $name );
+
+    # In perl 5.23.7 and earlier, the call stack at this point looks like:
+    #
+    #     Test::Block::DESTROY(...)     called at test_script line NNN
+    #     eval {...}                    called at test_script line NNN
+    #
+    # in perl 5.23.8 and later, like:
+    #
+    #     Test::Block::DESTROY(...)     called at Tie/Scalar.pm line 157
+    #     eval {...}                    called at Tie/Scalar.pm line 157
+    #     Tie::StdScalar::STORE(...)    called at Test/Block.pm line 96
+    #     Test::Block::Plan::STORE(...) called at test_script line NNN
+    #
+    local $Test::Builder::Level =
+        $Test::Builder::Level + ($] >= 5.023008 ? 3 : 0);
+
     $Test_builder->ok(
         0, 
         "block $name expected $expected test(s) and ran $tests_ran"
